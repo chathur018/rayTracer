@@ -11,6 +11,10 @@
 #include "hittableList.h"
 #include "sphere.h"
 
+#include "material.h"
+#include "lambertian.h"
+#include "metal.h"
+
 color rayColor(const ray& r, const hittable& world, int depth)
 {
 	if (depth <= 0)
@@ -19,8 +23,11 @@ color rayColor(const ray& r, const hittable& world, int depth)
 	hitRecord rec;
 	if (world.hit(r, 0.001, infinity, rec))
 	{
-		vec3 nextDirection = randomUnitVec() + rec.hitSide * rec.normal;
-		return 0.5 * rayColor(ray(rec.point, nextDirection), world, depth - 1);
+		ray scattered;
+		color attenuation;
+		if (rec.matPtr->scatter(r, rec, attenuation, scattered))
+			return attenuation * rayColor(scattered, world, depth - 1);
+		return color(0, 0, 0);
 	}
 
 	//background
@@ -39,7 +46,7 @@ int main()
 	
 	//image
 	const double imgAspectRatio = 16.0 / 9.0;
-	const int imgWidth = 400;
+	const int imgWidth = 960;
 	const int imgHeight = (int)(imgWidth / imgAspectRatio);
 	const int imgAlpha = 255;
 	const int samplesPerPixel = 100;
@@ -47,8 +54,16 @@ int main()
 
 	//world
 	hittableList world;
-	world.add(std::make_shared<sphere>(vec3(0, 0, -1), 0.5));
-	world.add(std::make_shared<sphere>(vec3(0, -100.5, -1), 100));
+
+	std::shared_ptr<lambertian> material_ground = std::make_shared<lambertian>(color(0.8, 0.8, 0.0));
+	std::shared_ptr<lambertian> material_center = std::make_shared<lambertian>(color(0.7, 0.3, 0.3));
+	std::shared_ptr<metal> material_left = std::make_shared<metal>(color(0.8, 0.8, 0.8), 0.2);
+	std::shared_ptr<metal> material_right = std::make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
+
+	world.add(std::make_shared<sphere>(vec3(0.0, -100.5, -1.0), 100.0, material_ground));
+	world.add(std::make_shared<sphere>(vec3(0.0, 0.0, -1.0), 0.5, material_center));
+	world.add(std::make_shared<sphere>(vec3(-1.0, 0.0, -1.0), 0.5, material_left));
+	world.add(std::make_shared<sphere>(vec3(1.0, 0.0, -1.0), 0.5, material_right));
 
 	//camera
 	camera camera;

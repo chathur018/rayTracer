@@ -1,5 +1,2 @@
-﻿  camera.cpp
-  main.cpp
-  vec3.cpp
-  Generating Code...
+﻿  main.cpp
   rayTracer.vcxproj -> C:\Projects\rayTracer\bin\x64\Debug\rayTracer.exe

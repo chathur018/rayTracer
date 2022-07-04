@@ -7,8 +7,8 @@ sphere::sphere()
 {
 }
 
-sphere::sphere(const vec3& center, double radius)
-	: m_center(center), m_radius(radius)
+sphere::sphere(const vec3& center, double radius, std::shared_ptr<material> mat)
+	: m_center(center), m_radius(radius), m_matPtr(mat)
 {
 }
 
@@ -35,6 +35,7 @@ bool sphere::hit(const ray& ray, double tMin, double tMax, hitRecord& record) co
 	record.t = root;
 	record.point = ray.at(root);
 	record.normal = (record.point - m_center) / m_radius;
+	record.matPtr = m_matPtr;
 
 	if (dotProduct(ray.m_direction, record.normal) > 0.0)
 		record.hitSide = -1;

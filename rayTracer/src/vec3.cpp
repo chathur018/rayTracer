@@ -43,6 +43,13 @@ double vec3::lengthSquared() const
 	return m_e[0] * m_e[0] + m_e[1] * m_e[1] + m_e[2] * m_e[2];
 }
 
+bool vec3::nearZero() const
+{
+	double z = 1e-8;
+
+	return (m_e[0] < z) && (m_e[1] < z) && (m_e[2] < z);
+}
+
 vec3 unitVector(const vec3& vec)
 {
 	return vec / vec.length();
@@ -51,6 +58,11 @@ vec3 unitVector(const vec3& vec)
 double dotProduct(const vec3& u, const vec3& v)
 {
 	return u.m_e[0] * v.m_e[0] + u.m_e[1] * v.m_e[1] + u.m_e[2] * v.m_e[2];
+}
+
+vec3 reflect(const vec3& v, const vec3& n)
+{
+	return v - 2 * dotProduct(v, n) * n;
 }
 
 inline static vec3 random() {
