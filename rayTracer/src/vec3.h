@@ -15,6 +15,8 @@ public:
 
 	double length() const;
 	double lengthSquared() const;
+
+	vec3& operator+=(const vec3& v);
 };
 
 inline vec3 operator+(const vec3& u, const vec3& v)
@@ -40,3 +42,9 @@ inline vec3 operator/(const vec3& v, const double& t)
 vec3 unitVector(const vec3& vec);
 
 double dotProduct(const vec3& u, const vec3& v);
+
+inline static vec3 random();
+
+inline static vec3 random(double min, double max);
+
+vec3 randomUnitVec();

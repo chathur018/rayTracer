@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\hittableList.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ray.cpp" />
@@ -145,6 +146,7 @@
     <None Include="src\image.ppm" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\color.h" />
     <ClInclude Include="src\constants.h" />
     <ClInclude Include="src\hittable.h" />

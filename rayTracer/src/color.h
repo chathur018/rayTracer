@@ -2,6 +2,8 @@
 
 #include "vec3.h"
 
+#include "constants.h"
+
 #include <iostream>
 
 class color : public vec3
@@ -14,6 +16,7 @@ public:
 		m_e[1] = e1;
 		m_e[2] = e2;
 	}
+
 	color(const vec3& v)
 	{
 		m_e[0] = v.x();
@@ -23,8 +26,21 @@ public:
 	
 	void writeColor(std::ostream& out)
 	{
-		out << (int)(255.999 * this->x()) << " "
-			<< (int)(255.999 * this->y()) << " "
-			<< (int)(255.999 * this->z()) << std::endl;
+		out << (int)(256 * clamp(this->x(), 0.0, 0.999)) << " "
+			<< (int)(256 * clamp(this->y(), 0.0, 0.999)) << " "
+			<< (int)(256 * clamp(this->z(), 0.0, 0.999)) << std::endl;
 	}
+
+	/*color& operator+=(const color& c)
+	{
+		m_e[0] += c.x();
+		m_e[1] += c.y();
+		m_e[2] += c.z();
+		return *this;
+	}*/
 };
+
+inline color operator+(const color& u, const color& v)
+{
+	return vec3(u.x() + v.x(), u.y() + v.y(), u.z() + v.z());
+}

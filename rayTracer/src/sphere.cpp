@@ -36,5 +36,10 @@ bool sphere::hit(const ray& ray, double tMin, double tMax, hitRecord& record) co
 	record.point = ray.at(root);
 	record.normal = (record.point - m_center) / m_radius;
 
+	if (dotProduct(ray.m_direction, record.normal) > 0.0)
+		record.hitSide = -1;
+	else
+		record.hitSide = 1;
+
 	return true;
 }

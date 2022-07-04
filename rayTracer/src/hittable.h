@@ -6,7 +6,8 @@ struct hitRecord
 {
 	vec3 point;
 	vec3 normal;
-	double t;
+	double t = 0;
+	int hitSide = 0;
 };
 
 class hittable

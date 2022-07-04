@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "constants.h"
+
 vec3::vec3()
 	: m_e{ 0, 0, 0 }
 {
@@ -49,4 +51,25 @@ vec3 unitVector(const vec3& vec)
 double dotProduct(const vec3& u, const vec3& v)
 {
 	return u.m_e[0] * v.m_e[0] + u.m_e[1] * v.m_e[1] + u.m_e[2] * v.m_e[2];
+}
+
+inline static vec3 random() {
+	return vec3(randomDouble(), randomDouble(), randomDouble());
+}
+
+inline static vec3 random(double min, double max) {
+	return vec3(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
+}
+
+vec3 randomUnitVec()
+{
+	return unitVector(random());
+}
+
+vec3& vec3::operator+=(const vec3& v)
+{
+	m_e[0] += v.x();
+	m_e[1] += v.y();
+	m_e[2] += v.z();
+	return *this;
 }
