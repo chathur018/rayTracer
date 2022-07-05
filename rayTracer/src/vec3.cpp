@@ -47,7 +47,7 @@ bool vec3::nearZero() const
 {
 	double z = 1e-8;
 
-	return (m_e[0] < z) && (m_e[1] < z) && (m_e[2] < z);
+	return (fabs(m_e[0]) < z) && (fabs(m_e[1]) < z) && (fabs(m_e[2]) < z);
 }
 
 vec3 unitVector(const vec3& vec)
@@ -60,9 +60,24 @@ double dotProduct(const vec3& u, const vec3& v)
 	return u.m_e[0] * v.m_e[0] + u.m_e[1] * v.m_e[1] + u.m_e[2] * v.m_e[2];
 }
 
+vec3 crossProduct(const vec3& u, const vec3& v) {
+	return vec3(u.m_e[1] * v.m_e[2] - u.m_e[2] * v.m_e[1],
+		u.m_e[2] * v.m_e[0] - u.m_e[0] * v.m_e[2],
+		u.m_e[0] * v.m_e[1] - u.m_e[1] * v.m_e[0]);
+}
+
 vec3 reflect(const vec3& v, const vec3& n)
 {
 	return v - 2 * dotProduct(v, n) * n;
+}
+
+//v and n need to be unit vectors
+vec3 refract(vec3 v, vec3 n, double refractiveIndex, const int& hitSide)
+{
+	double normDot = dotProduct(v, n);
+	vec3 perpendicularToNormal = (v - normDot * n) / refractiveIndex;
+	vec3 parallelToNormal = - hitSide * std::sqrt(1.0 - perpendicularToNormal.lengthSquared()) * n;
+	return perpendicularToNormal + parallelToNormal;
 }
 
 inline static vec3 random() {

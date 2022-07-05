@@ -2,7 +2,6 @@
 
 #include "ray.h"
 #include "color.h"
-#include "hittable.h"
 
 struct hitRecord;
 

@@ -30,17 +30,17 @@ public:
 			<< (int)(256 * clamp(this->y(), 0.0, 0.999)) << " "
 			<< (int)(256 * clamp(this->z(), 0.0, 0.999)) << std::endl;
 	}
-
-	/*color& operator+=(const color& c)
-	{
-		m_e[0] += c.x();
-		m_e[1] += c.y();
-		m_e[2] += c.z();
-		return *this;
-	}*/
 };
 
 inline color operator+(const color& u, const color& v)
 {
 	return vec3(u.x() + v.x(), u.y() + v.y(), u.z() + v.z());
+}
+
+inline static color randomColor() {
+	return color(randomDouble(), randomDouble(), randomDouble());
+}
+
+inline static color randomColor(double min, double max) {
+	return color(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
 }

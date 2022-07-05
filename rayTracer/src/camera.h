@@ -1,6 +1,6 @@
 #pragma once
 
-#include "constants.h"
+
 #include "vec3.h"
 #include "ray.h"
 
@@ -11,8 +11,10 @@ public:
 	vec3 m_upperLeftCorner;
 	vec3 m_horizontal;
 	vec3 m_vertical;
+	vec3 u, v, w;
+	double m_lensRadius;
 
-	camera();
+	camera(vec3 lookfrom, vec3 lookat, vec3 vup, double vfov, double aspectRatio, double aperture, double focusDist);
 
 	ray getRay(double u, double v) const;
 };

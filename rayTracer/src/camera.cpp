@@ -1,19 +1,31 @@
 #include "camera.h"
 
-camera::camera()
+#include "constants.h"
+
+camera::camera(vec3 lookfrom, vec3 lookat, vec3 vup, double vfov, 
+	double aspectRatio, double aperture, double focusDist)
 {
-	const double imgAspectRatio = 16.0 / 9.0;
-	const double viewportHeight = 2.0;
-	const double viewportWidth = viewportHeight * imgAspectRatio;
+	double theta = degreesToRadians(vfov);
+	const double viewportHeight = 2.0 * tan(theta/2);
+	const double viewportWidth = viewportHeight * aspectRatio;
 	const double focalLength = 1.0;
 
-	m_origin = vec3();
-	m_horizontal = vec3(viewportWidth, 0, 0);
-	m_vertical = vec3(0, viewportHeight, 0);
-	m_upperLeftCorner = m_origin - m_horizontal / 2 + m_vertical / 2 - vec3(0, 0, focalLength);
+	w = unitVector(lookfrom - lookat);
+	u = unitVector(crossProduct(vup, w));
+	v = crossProduct(w, u);
+
+	m_origin = lookfrom;
+	m_horizontal = focusDist * viewportWidth * u;
+	m_vertical = focusDist * viewportHeight * v;
+	m_upperLeftCorner = m_origin - m_horizontal / 2 + m_vertical / 2 - focusDist * w;
+
+	m_lensRadius = aperture / 2;
 }
 
-ray camera::getRay(double u, double v) const
+ray camera::getRay(double s, double t) const
 {
-	return ray(m_origin, m_upperLeftCorner + u * m_horizontal - v * m_vertical - m_origin);
+	vec3 rd = m_lensRadius * randomUnitVec();
+	vec3 offset = rd.x() * u + rd.y() * v;
+	
+	return ray(m_origin + offset, m_upperLeftCorner + s * m_horizontal - t * m_vertical - m_origin - offset);
 }
