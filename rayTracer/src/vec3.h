@@ -53,7 +53,7 @@ vec3 crossProduct(const vec3& u, const vec3& v);
 
 vec3 reflect(const vec3& v, const vec3& n);
 
-vec3 refract(vec3 v, vec3 n, const double refractiveIndex, const int& hitSide);
+vec3 refract(const vec3& v, const vec3& n, const double refractiveIndex, const int& hitSide);
 
 inline static vec3 random();
 

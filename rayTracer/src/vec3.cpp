@@ -72,7 +72,7 @@ vec3 reflect(const vec3& v, const vec3& n)
 }
 
 //v and n need to be unit vectors
-vec3 refract(vec3 v, vec3 n, double refractiveIndex, const int& hitSide)
+vec3 refract(const vec3& v, const vec3& n, double refractiveIndex, const int& hitSide)
 {
 	double normDot = dotProduct(v, n);
 	vec3 perpendicularToNormal = (v - normDot * n) / refractiveIndex;

@@ -93,10 +93,10 @@ int main()
 	
 	//image
 	const double imgAspectRatio = 3.0 / 2.0;
-	const int imgWidth = 1200;
+	const int imgWidth = 400;
 	const int imgHeight = (int)(imgWidth / imgAspectRatio);
 	const int imgAlpha = 255;
-	const int samplesPerPixel = 500;
+	const int samplesPerPixel = 50;
 	const int maxDepth = 50;
 
 	//world
